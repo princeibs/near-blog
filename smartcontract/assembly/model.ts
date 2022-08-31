@@ -1,4 +1,4 @@
-import { PersistentUnorderedMap,PersistentVector, context, u128 } from "near-sdk-as";
+import { PersistentUnorderedMap, context, u128 } from "near-sdk-as";
 
 /**
  * A class that representing blog created by an author.
@@ -54,6 +54,3 @@ export class Blog {
  * the value is the blog object itself, referring to this class
  */
 export const blogs = new PersistentUnorderedMap<string, Blog>("bls");
-
-
-export const slugs = new PersistentVector<string>("slug");
