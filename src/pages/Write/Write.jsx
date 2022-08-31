@@ -6,10 +6,11 @@ import "./Write.scss";
 import { createBlog } from "../../utils/nblog";
 
 const Write = () => {
-  const [thumbnail, setThumbnail] = React.useState();
-  const [blogTitle, setBlogTitle] = useState();
-  const [blogContent, setBlogContent] = useState();
+  const [thumbnail, setThumbnail] = useState("");
+  const [blogTitle, setBlogTitle] = useState("");
+  const [blogContent, setBlogContent] = useState("");
   const navigate = useNavigate();
+  const isFormFilled = () => blogTitle.length > 0 && blogContent.length > 0 && thumbnail.length;
 
   const slugify = (str) =>
     str
@@ -20,8 +21,13 @@ const Write = () => {
       .replace(/^-+|-+$/g, "");
 
   const create = async () => {
+    if(!isFormFilled()){
+      alert("Please fill in all the fields");
+      return;
+    }
     const _uuid = uuid4();
-    const _slug = `${slugify(blogTitle)}-${_uuid}`;
+    const _blogTitle = blogTitle;
+    const _slug = `${slugify(_blogTitle)}-${_uuid}`;
     const blogData = {
       id: _uuid,
       slug: _slug,
@@ -42,7 +48,7 @@ const Write = () => {
       <div className="app__write">
         <div className="write">
           <div className="write-header">
-            <img src={thumbnail} alt="thumbnail image" />
+            <img src={thumbnail} alt="thumbnail" />
             <input
               value={thumbnail}
               onChange={(e) => setThumbnail(e.target.value)}

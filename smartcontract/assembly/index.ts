@@ -1,16 +1,18 @@
-import { context, ContractPromiseBatch, logging } from "near-sdk-as";
+import { context, ContractPromiseBatch } from "near-sdk-as";
 import { Blog, blogs, slugs } from "./model";
 
 /**
  *
- * create a new blog and add to storage
+ * @dev create a new blog and add to storage
  */
 export function createBlog(blogData: Blog): void {
   let tSlug = blogs.get(blogData.slug);
   if (tSlug !== null) {
     throw new Error(`the slug '${blogData.slug}' is not unique. Please use another one.`);
   }
-  logging.log("Started creating blog");
+  assert(blogData.content.length > 0, "Content is empty");
+  assert(blogData.slug.length > 0, "Empty slug");
+  assert(blogData.title.length > 0, "Empty title");
   blogs.set(blogData.slug, Blog.fromPayload(blogData));
   slugs.push(blogData.slug);
 }
@@ -27,18 +29,12 @@ export function viewBlog(slug: string): Blog | null {
 }
 
 /**
- * fetch and return all published blogs
+ * @dev fetch and return all published blogs
  * @returns all published blogs
  *
  */
 export function allBlogs(): Blog[] {
-  const length = slugs.length;
-  const allBlogs: Blog[] = [];
-  for (let i = 0; i < length; i++) {
-    let blog = blogs.get(slugs[i]) as Blog;
-    allBlogs.push(blog);
-  }
-  return allBlogs;
+  return blogs.values();
 }
 
 /**
@@ -62,5 +58,7 @@ export function buyCoffee(slug: string): void {
   if (blog == null) {
     throw new Error("blog not found");
   }
+  blog.donate(context.attachedDeposit);
   ContractPromiseBatch.create(blog.author).transfer(context.attachedDeposit);
+  blogs.set(slug, blog);
 }

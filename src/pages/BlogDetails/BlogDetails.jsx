@@ -8,7 +8,7 @@ import { readingTime } from "reading-time-estimator";
 
 const BlogDetails = () => {
   const [coffeeQty, setCoffeeQty] = useState(1);
-  const [blog, setBlog] = useState();
+  const [blog, setBlog] = useState(null);
   const { slug } = useParams();
 
   const like = async () => {
@@ -48,7 +48,7 @@ const BlogDetails = () => {
       {blog ? (
         <div className="app__details">
           <div className="details">
-            <img src={blog.thumbnail} />
+            <img src={blog.thumbnail} alt=""/>
             <div className="details-meta-0">
               <div className="details-meta-1">
                 <div className="details-dp">
@@ -67,13 +67,12 @@ const BlogDetails = () => {
             <hr />
             <div className="details-lc">
               <div className="details-lc-1" onClick={() => like()}>
-                <img src={likeImg} />
+                <img src={likeImg} alt="" />
                 <div>{blog.likes.length}</div>
               </div>
               <div className="details-lc-2">
                 <span onClick={() => tip()}>Buy author {coffeeQty} coffee</span>
                 <input
-                  defaultValue={1}
                   min={1}
                   value={coffeeQty}
                   onChange={(e) => setCoffeeQty(e.target.value)}

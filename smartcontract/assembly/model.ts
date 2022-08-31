@@ -1,4 +1,4 @@
-import { PersistentUnorderedMap,PersistentVector, context } from "near-sdk-as";
+import { PersistentUnorderedMap,PersistentVector, context, u128 } from "near-sdk-as";
 
 /**
  * A class that representing blog created by an author.
@@ -16,6 +16,7 @@ export class Blog {
   content: string;
   thumbnail: string;
   likes: Array<string>;
+  donations: u128;
   
   public static fromPayload(blogData: Blog): Blog {
     const blog = new Blog();
@@ -27,20 +28,23 @@ export class Blog {
     blog.content = blogData.content;
     blog.thumbnail = blogData.thumbnail;
     blog.likes = [];
+    blog.donations = u128.Zero;
 
     return blog;
   }
 
   like(): void {
+    const index = this.likes.findIndex((i) => i == context.sender);
     // un-like a blog is the `sender` has already liked the blog
-    if (this.likes.includes(context.sender)) {
-      const index = this.likes.findIndex((i) => i == context.sender);
-      if (index != -1) {
+    if (index != -1) {
         this.likes.splice(index, 1);
-      }
     } else {
       this.likes.push(context.sender);
     }
+  }
+
+  donate(amount: u128): void {
+    this.donations = u128.add(this.donations, amount);
   }
 }
 
@@ -51,7 +55,5 @@ export class Blog {
  */
 export const blogs = new PersistentUnorderedMap<string, Blog>("bls");
 
-/**
- * 
- */
+
 export const slugs = new PersistentVector<string>("slug");

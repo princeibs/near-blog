@@ -75,7 +75,7 @@ const App = () => {
             {!loading ? (
               <div className="app-body">
                 {blogs.map((blog) => (
-                  <div className="preview">
+                  <div className="preview" key={blog.slug}>
                     <img src={blog.thumbnail} />
                     <div className="preview-meta-0">
                       <div className="preview-meta-1">
