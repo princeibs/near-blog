@@ -52,6 +52,6 @@ export class Blog {
 export const blogs = new PersistentUnorderedMap<string, Blog>("bls");
 
 /**
- * 
+ * A dynamic storage used to keep track of all slugs created
  */
 export const slugs = new PersistentVector<string>("slug");
