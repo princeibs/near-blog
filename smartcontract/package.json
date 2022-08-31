@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "gh-pages": "^4.0.0",
+    "near-sdk-as": "^3.2.3"
+  },
+  "dependencies": {
+    "reading-time-estimator": "^1.6.2",
+    "uuid": "^8.3.2"
+  }
+}

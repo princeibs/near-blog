@@ -1,0 +1,2 @@
+#!/bin/bash
+near call nblog.ibs.testnet createBlog '{"blogData": {"id":"0", "slug":"hello-world", "title":"Hello World", "content": "Hello world article content", "thumbnail": "https://picsum.photos/500/500"}}' --accountId=ibs.testnet
