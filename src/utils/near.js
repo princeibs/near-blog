@@ -4,6 +4,7 @@ import { formatNearAmount } from "near-api-js/lib/utils/format";
 
 const nearEnv = environment("testnet");
 
+// Connect contract to blockchain before loading app
 export async function initializeContract() {
   const near = await connect(
     Object.assign(
@@ -25,6 +26,7 @@ export async function initializeContract() {
   );
 }
 
+// Return account balance of current user
 export async function accountBalance() {
   return formatNearAmount(
     (await window.walletConnection.account().getAccountBalance()).total,
@@ -32,14 +34,17 @@ export async function accountBalance() {
   );
 }
 
+// Get account id of current logged in user (e.g alice.testnet)
 export async function getAccountId() {
   return window.walletConnection.getAccountId();
 }
 
+// log user into dapp
 export function login() {
   window.walletConnection.requestSignIn(nearEnv.contractName);
 }
 
+// log user out of dapp
 export function logout() {
   window.walletConnection.signOut();
   window.location.reload();
