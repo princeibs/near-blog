@@ -1,5 +1,5 @@
 import { context, ContractPromiseBatch } from "near-sdk-as";
-import { Blog, blogs, slugs } from "./model";
+import { Blog, blogs } from "./model";
 
 /**
  *
@@ -14,7 +14,6 @@ export function createBlog(blogData: Blog): void {
   assert(blogData.slug.length > 0, "Empty slug");
   assert(blogData.title.length > 0, "Empty title");
   blogs.set(blogData.slug, Blog.fromPayload(blogData));
-  slugs.push(blogData.slug);
 }
 
 /**
